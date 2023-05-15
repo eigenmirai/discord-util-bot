@@ -32,11 +32,11 @@ public class ColorCommand {
         }
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(color)
-                .setTitle(":rainbow:")
+                .setTitle(":rainbow::rainbow::rainbow:")
                 .addField("Hexadecimal", MarkdownUtil.codeblock(String.valueOf(hex)), true)
                 .addField("Decimal", MarkdownUtil.codeblock(String.valueOf(color.getRGB())), true)
                 .addField("RGB", MarkdownUtil.codeblock(Util.rgbString(color)), false)
-                .addField("HSL", MarkdownUtil.codeblock(Util.hslString(color)), true)
+                .addField("HSV", MarkdownUtil.codeblock(Util.hsvString(color)), true)
                 .setTimestamp(Instant.now())
                 .build();
         event.replyEmbeds(embed).queue();

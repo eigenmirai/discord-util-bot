@@ -8,6 +8,7 @@ import io.github.mirai42.command.info.ColorCommand;
 import io.github.mirai42.command.info.PingCommand;
 import io.github.mirai42.command.info.SnowflakeCommand;
 import io.github.mirai42.command.misc.HashCommand;
+import io.github.mirai42.command.misc.WolframAlphaCommand;
 import io.github.mirai42.util.CommandLogger;
 import io.github.mirai42.util.Util;
 import lombok.Getter;
@@ -58,7 +59,7 @@ public class Bot {
 
         this.jda = JDABuilder.createDefault(token)
                 .setEventManager(new AnnotatedEventManager())
-                .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(), new EvalCommand(), new ColorCommand())
+                .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(), new EvalCommand(), new ColorCommand(), new WolframAlphaCommand())
                 .setActivity(Activity.of(Activity.ActivityType.valueOf(activityType.toUpperCase()), activityText))
                 .enableIntents(List.of(GatewayIntent.MESSAGE_CONTENT))
                 .build();
@@ -94,6 +95,8 @@ public class Bot {
                                         .addChoices(ActivityCommand.activities.stream().map(e -> new Command.Choice(Util.firstLetterCaps(e), e)).toList()),
                                 new OptionData(OptionType.STRING, "url", "URL, needed for streaming activity", false)
                         ),
+                Commands.slash("wa", "Ask WolframAlpha")
+                        .addOption(OptionType.STRING, "input", "Query", true),
                 Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
                         .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
                 Commands.slash("purge", "Bulk delete messages")

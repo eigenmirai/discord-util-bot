@@ -55,28 +55,13 @@ public class Util {
         return String.format("%s, %s, %s", color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    public static String hslString(Color color) {
-        int r, g, b, min, max;
-        double h, s, l, d;
-        r = color.getRed();
-        g = color.getGreen();
-        b = color.getBlue();
-        min = Math.min(Math.min(r, g), b);
-        max = Math.max(Math.max(r, g), b);
-        d = (max - min)/255f;
-        l = (min + max)/510f;
-        if (l == 0) {
-            s = 0;
-        } else {
-            s = d/(1 - (2*l - 1));
-        }
-        double a = Math.toDegrees(Math.acos((r - g/2f- b/2f)/Math.sqrt(r*r + g*g + b*b - r*g - r*b - g*b)));
-        if (g >= b) {
-            h = a;
-        } else {
-            h = 360 - a;
-        }
-        DecimalFormat df = new DecimalFormat("#.###");
-        return String.format("%s, %s, %s", df.format(h), df.format(s), df.format(l));
+    public static String hsvString(Color color) {
+        float[] hsl = new float[3];
+        Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsl);
+
+        int hue = (int) (hsl[0] * 360);
+        int saturation = (int) (hsl[1] * 100);
+        int value = (int) (hsl[2] * 100);
+        return String.format("%s°, %s%%, %s%%", hue, saturation, value);
     }
 }

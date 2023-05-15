@@ -18,7 +18,7 @@ public class PingCommand {
                 event.getChannel().getType().isGuild())) return;
         if (!"ping".equals(event.getName())) return;
 
-        Message sentMessage =event.getChannel().sendMessage("Calculating...").complete();
+        Message sentMessage = event.getChannel().sendMessage("Calculating...").complete();
         long diff = event.getTimeCreated().until(sentMessage.getTimeCreated(), ChronoUnit.MILLIS);
 
         String botLatency = String.format("%dms", diff);
