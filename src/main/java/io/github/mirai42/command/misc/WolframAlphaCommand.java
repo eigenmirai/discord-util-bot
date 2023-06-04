@@ -25,9 +25,8 @@ public class WolframAlphaCommand {
         }
         String base = "http://api.wolframalpha.com/v1/simple?appid=" + appId;
 
-        String input = Objects.requireNonNull(event.getOption("input")).getAsString()
-                .replace(" ", "+");
-        String url = base + "&i=" + input + "&units=metric&background=35393e&foreground=white";
+        String input = Objects.requireNonNull(event.getOption("input")).getAsString();
+        String url = base + "&i=" + input.replace(" ", "+") + "&units=metric&background=35393e&foreground=white";
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Util.green)
                 .setTitle(":white_check_mark: ")

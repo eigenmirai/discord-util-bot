@@ -1,4 +1,4 @@
-package io.github.mirai42.command.misc;
+package io.github.mirai42.command.admin;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;

@@ -3,6 +3,7 @@ package io.github.mirai42;
 import io.github.mirai42.command.dev.ActivityCommand;
 import io.github.mirai42.command.dev.EvalCommand;
 import io.github.mirai42.command.fun.CoinflipCommand;
+import io.github.mirai42.command.fun.ColorRoleCommand;
 import io.github.mirai42.command.info.BotInfoCommand;
 import io.github.mirai42.command.info.ColorCommand;
 import io.github.mirai42.command.info.PingCommand;
@@ -59,7 +60,7 @@ public class Bot {
 
         this.jda = JDABuilder.createDefault(token)
                 .setEventManager(new AnnotatedEventManager())
-                .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(), new EvalCommand(), new ColorCommand(), new WolframAlphaCommand())
+                .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(), new EvalCommand(), new ColorCommand(), new WolframAlphaCommand(), new ColorRoleCommand())
                 .setActivity(Activity.of(Activity.ActivityType.valueOf(activityType.toUpperCase()), activityText))
                 .enableIntents(List.of(GatewayIntent.MESSAGE_CONTENT))
                 .build();
@@ -83,6 +84,8 @@ public class Bot {
                         ),
                 Commands.slash("color", "Get information about a color")
                                 .addOption(OptionType.STRING, "hex", "Color hex code", true),
+//                Commands.slash("color-role", "Gives the user a colored role")
+//                                .addOption(OptionType.STRING, "hex", "Color hex code"),
                 Commands.slash("snowflake", "Get information on a snowflake")
                         .addOption(OptionType.STRING, "snowflake", "❄", true),
                 Commands.slash("coinflip", "Flip a coin")
@@ -96,9 +99,15 @@ public class Bot {
                                 new OptionData(OptionType.STRING, "url", "URL, needed for streaming activity", false)
                         ),
                 Commands.slash("wa", "Ask WolframAlpha")
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
                         .addOption(OptionType.STRING, "input", "Query", true),
-                Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
-                        .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
+                //Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
+                //        .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
+                //Commands.slash("yt-download", "Download a video from youtube")
+                //        .addOptions(
+                //                new OptionData(OptionType.STRING, "url", "URL of the video", true),
+                //                new OptionData(OptionType.BOOLEAN, "extract-audio", "Download only audio", false)
+                //        )
                 Commands.slash("purge", "Bulk delete messages")
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
                         .addOption(OptionType.INTEGER, "amount", "Amount of messages to delete", true)
@@ -110,11 +119,6 @@ public class Bot {
                                         .addOption(OptionType.STRING, "code", "Code to evaluate", true),
                                 new SubcommandData("java", "Execute java code")
                                         .addOption(OptionType.STRING, "code", "Code to evaluate", true)
-                        ),
-                Commands.slash("yt-download", "Download a video from youtube")
-                        .addOptions(
-                                new OptionData(OptionType.STRING, "url", "URL of the video", true),
-                                new OptionData(OptionType.BOOLEAN, "extract-audio", "Download only audio", false)
                         )
         ).queue();
     }
