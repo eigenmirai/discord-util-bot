@@ -2,6 +2,7 @@ package io.github.mirai42;
 
 import io.github.mirai42.command.dev.ActivityCommand;
 import io.github.mirai42.command.dev.EvalCommand;
+import io.github.mirai42.command.dev.ShutdownCommand;
 import io.github.mirai42.command.fun.CoinflipCommand;
 import io.github.mirai42.command.fun.ColorRoleCommand;
 import io.github.mirai42.command.info.BotInfoCommand;
@@ -9,6 +10,7 @@ import io.github.mirai42.command.info.ColorCommand;
 import io.github.mirai42.command.info.PingCommand;
 import io.github.mirai42.command.info.SnowflakeCommand;
 import io.github.mirai42.command.misc.HashCommand;
+import io.github.mirai42.command.misc.PollCommand;
 import io.github.mirai42.command.misc.WolframAlphaCommand;
 import io.github.mirai42.util.CommandLogger;
 import io.github.mirai42.util.Util;
@@ -60,7 +62,8 @@ public class Bot {
 
         this.jda = JDABuilder.createDefault(token)
                 .setEventManager(new AnnotatedEventManager())
-                .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(), new EvalCommand(), new ColorCommand(), new WolframAlphaCommand(), new ColorRoleCommand())
+                .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(),
+                        new EvalCommand(), new ColorCommand(), new WolframAlphaCommand(), new ColorRoleCommand(), new ShutdownCommand(), new PollCommand())
                 .setActivity(Activity.of(Activity.ActivityType.valueOf(activityType.toUpperCase()), activityText))
                 .enableIntents(List.of(GatewayIntent.MESSAGE_CONTENT))
                 .build();
@@ -99,8 +102,19 @@ public class Bot {
                                 new OptionData(OptionType.STRING, "url", "URL, needed for streaming activity", false)
                         ),
                 Commands.slash("wa", "Ask WolframAlpha")
-                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
                         .addOption(OptionType.STRING, "input", "Query", true),
+                Commands.slash("shutdown", "Shut down the bot"),
+                Commands.slash("poll", "Start a poll")
+                        .addOption(OptionType.STRING, "title", "Title of the poll", true)
+                        .addOption(OptionType.STRING, "option-1", "Option 1", true)
+                        .addOption(OptionType.STRING, "option-2", "Option 2", true)
+                        .addOption(OptionType.STRING, "option-3", "Option 3", false)
+                        .addOption(OptionType.STRING, "option-4", "Option 4", false)
+                        .addOption(OptionType.STRING, "option-5", "Option 5", false)
+                        .addOption(OptionType.STRING, "option-6", "Option 6", false)
+                        .addOption(OptionType.STRING, "option-7", "Option 7", false)
+                        .addOption(OptionType.STRING, "option-8", "Option 8", false)
+                        .addOption(OptionType.STRING, "option-9", "Option 9", false),
                 //Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
                 //        .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
                 //Commands.slash("yt-download", "Download a video from youtube")

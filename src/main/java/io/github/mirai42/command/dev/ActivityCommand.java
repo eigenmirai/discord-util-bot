@@ -26,6 +26,11 @@ public class ActivityCommand {
                 event.getChannel().getType().isGuild())) return;
         if (!"set-activity".equals(event.getName())) return;
 
+        if (!Bot.getInstance().getDevelopers().contains(event.getUser())) {
+            event.replyEmbeds(Embeds.errorEmbed("Permission denied: only developers are allowed to use this command")).queue();
+            return;
+        }
+
         String activityType = Objects.requireNonNull(event.getOption("type")).getAsString();
         String activityText = Objects.requireNonNull(event.getOption("text")).getAsString();
         OptionMapping streamingUrlOption = event.getOption("url");

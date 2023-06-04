@@ -18,6 +18,11 @@ public class WolframAlphaCommand {
                 event.getChannel().getType().isGuild())) return;
         if (!"wa".equals(event.getName())) return;
 
+        if (!Bot.getInstance().getDevelopers().contains(event.getUser())) {
+            event.replyEmbeds(Embeds.errorEmbed("Permission denied: only developers are allowed to use this command")).queue();
+            return;
+        }
+
         String appId = Bot.getInstance().getConfig().getProperty("bot.wolfram.id");
         if (appId == null) {
             event.replyEmbeds(Embeds.errorEmbed("AppID not found! Please contact the developers.")).queue();
@@ -34,6 +39,7 @@ public class WolframAlphaCommand {
                 .addField(":outbox_tray: Output", "", false)
                 .setImage(url)
                 .build();
+        System.out.println(url);
         event.replyEmbeds(embed).queue();
     }
 }
