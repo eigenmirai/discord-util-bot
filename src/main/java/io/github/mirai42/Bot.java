@@ -115,8 +115,7 @@ public class Bot {
                         .addOption(OptionType.STRING, "option-7", "Option 7", false)
                         .addOption(OptionType.STRING, "option-8", "Option 8", false)
                         .addOption(OptionType.STRING, "option-9", "Option 9", false),
-                //Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
-                //        .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
+
                 //Commands.slash("yt-download", "Download a video from youtube")
                 //        .addOptions(
                 //                new OptionData(OptionType.STRING, "url", "URL of the video", true),
