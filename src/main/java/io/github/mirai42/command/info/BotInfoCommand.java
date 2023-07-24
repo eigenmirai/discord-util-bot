@@ -4,6 +4,7 @@ import io.github.mirai42.Bot;
 import io.github.mirai42.util.CommandLogger;
 import io.github.mirai42.util.Embeds;
 import io.github.mirai42.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDAInfo;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  * Info command showing information on the bot and runtime
  * Information shown: os, version, uptime, gateway ping
  */
+@Slf4j
 public class BotInfoCommand {
     @SubscribeEvent
     public void handleCommand(SlashCommandInteractionEvent event) {
@@ -46,8 +48,8 @@ public class BotInfoCommand {
                 kernel = Util.readStream(p.getInputStream());
             }
         } catch (IOException e) {
-            System.out.println("hi");
-            kernel = "Kernel Info N/A";
+            log.info("Unable to get kernel info");
+            kernel = "N/A";
             return;
         }
         String sys = String.format("%s (%s)", os, kernel);

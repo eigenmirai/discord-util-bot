@@ -12,6 +12,7 @@ import io.github.mirai42.command.info.SnowflakeCommand;
 import io.github.mirai42.command.misc.HashCommand;
 import io.github.mirai42.command.misc.PollCommand;
 import io.github.mirai42.command.misc.WolframAlphaCommand;
+import io.github.mirai42.command.misc.YoutubeDownload;
 import io.github.mirai42.util.CommandLogger;
 import io.github.mirai42.util.Util;
 import lombok.Getter;
@@ -31,6 +32,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -53,7 +55,13 @@ public class Bot {
     }
 
     private Bot(String configLocation) {
-        this.config = loadConfig(configLocation);
+        this.config = new Properties();
+        try {
+            this.config.load(this.getClass().getClassLoader().getResourceAsStream(configLocation));
+        } catch (IOException e) {
+            log.info("Could not load config, exiting...");
+            e.printStackTrace();
+        }
 
         String token = Objects.requireNonNull(config.getProperty("bot.token"));
         String activityType = Objects.requireNonNull(config.getProperty("bot.activity.type"));
@@ -63,7 +71,7 @@ public class Bot {
         this.jda = JDABuilder.createDefault(token)
                 .setEventManager(new AnnotatedEventManager())
                 .addEventListeners(new BotInfoCommand(), new PingCommand(), new SnowflakeCommand(), new ActivityCommand(), new HashCommand(), new CoinflipCommand(), new CommandLogger(),
-                        new EvalCommand(), new ColorCommand(), new WolframAlphaCommand(), new ColorRoleCommand(), new ShutdownCommand(), new PollCommand())
+                        new EvalCommand(), new ColorCommand(), new WolframAlphaCommand(), new ColorRoleCommand(), new ShutdownCommand(), new PollCommand(), new YoutubeDownload())
                 .setActivity(Activity.of(Activity.ActivityType.valueOf(activityType.toUpperCase()), activityText))
                 .enableIntents(List.of(GatewayIntent.MESSAGE_CONTENT))
                 .build();
@@ -117,17 +125,16 @@ public class Bot {
                         .addOption(OptionType.STRING, "option-9", "Option 9", false),
                 //Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
                 //        .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
-                //Commands.slash("yt-download", "Download a video from youtube")
-                //        .addOptions(
-                //                new OptionData(OptionType.STRING, "url", "URL of the video", true),
-                //                new OptionData(OptionType.BOOLEAN, "extract-audio", "Download only audio", false)
-                //        )
+                Commands.slash("yt-download", "Download a video from youtube")
+                        .addOptions(
+                                new OptionData(OptionType.STRING, "url", "URL of the video", true),
+                                new OptionData(OptionType.BOOLEAN, "extract-audio", "Download only audio", false)
+                        ),
                 Commands.slash("purge", "Bulk delete messages")
                         .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
                         .addOption(OptionType.INTEGER, "amount", "Amount of messages to delete", true)
                         .addOption(OptionType.USER, "user", "Purge only messages from this user", false),
                 Commands.slash("eval", "Execute code")
-                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
                         .addSubcommands(
                                 new SubcommandData("bash", "Execute bash/shell script")
                                         .addOption(OptionType.STRING, "code", "Code to evaluate", true),
@@ -135,18 +142,6 @@ public class Bot {
                                         .addOption(OptionType.STRING, "code", "Code to evaluate", true)
                         )
         ).queue();
-    }
-
-    private Properties loadConfig(String fileName) {
-        Properties config = new Properties();
-        try {
-            URL configUrl = Bot.class.getClassLoader().getResource("config.properties");
-            Path path = Paths.get(configUrl.toURI()).toAbsolutePath();
-            config.load(Files.newInputStream(path));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return config;
     }
 
     public static void main(String[] args) {

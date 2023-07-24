@@ -4,6 +4,7 @@ import groovy.lang.GroovyShell;
 import io.github.mirai42.Bot;
 import io.github.mirai42.util.Embeds;
 import io.github.mirai42.util.Util;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.Objects;
 
+@Slf4j
 public class EvalCommand {
     private String imports;
     private GroovyShell shell;
@@ -57,8 +59,13 @@ public class EvalCommand {
                 event.getChannel().getType().isGuild())) return;
         if (!"eval".equals(event.getName())) return;
 
+        String script = Objects.requireNonNull(event.getOption("code")).getAsString();
+
         if (!Bot.getInstance().getDevelopers().contains(event.getUser())) {
             event.replyEmbeds(Embeds.errorEmbed("Permission denied: only developers are allowed to use this command")).queue();
+            String message = String.format("User %s (%s) tried to evaluate the following code in server %s (%s): %s",
+                    event.getUser().getAsTag(), event.getUser().getId(), event.getGuild().getName(), event.getGuild().getId(), script);
+            log.info(message);
             return;
         }
 
@@ -68,7 +75,6 @@ public class EvalCommand {
                     event.replyEmbeds(Embeds.errorEmbed("Cannot evaluate bash code on windows.")).queue();
                     return;
                 }
-                String script = Objects.requireNonNull(event.getOption("code")).getAsString();
                 event.deferReply().queue();
 
                 String out, version = "bash";
@@ -87,7 +93,6 @@ public class EvalCommand {
             }
             case "java" -> {
                 try {
-                    String script = Objects.requireNonNull(event.getOption("code")).getAsString();
                     event.deferReply().queue();
 
                     shell.setProperty("jda", Bot.getInstance().getJda());
