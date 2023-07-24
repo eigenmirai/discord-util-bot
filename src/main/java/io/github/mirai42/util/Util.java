@@ -1,24 +1,20 @@
 package io.github.mirai42.util;
 
-import net.dv8tion.jda.api.entities.ISnowflake;
-import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView;
-
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Util {
-    public static final Color blue =   Color.decode("#5865F2");
-    public static final Color green =  Color.decode("#57F287");
+    public static final Color blue = Color.decode("#5865F2");
+    public static final Color green = Color.decode("#57F287");
     public static final Color yellow = Color.decode("#FEE75C");
-    public static final Color red =    Color.decode("#ED4245");
-    public static final Color pink =   Color.decode("#EB459E");
-    private static final char[] hex = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    public static final Color red = Color.decode("#ED4245");
+    public static final Color pink = Color.decode("#EB459E");
+    private static final char[] hex = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     public static String byteArray2Hex(byte[] bytes) {
         StringBuffer buf = new StringBuffer(bytes.length * 2);

@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class PollCommand {
     private static final String[] emotes = new String[]{"1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"};
+
     @SubscribeEvent
     public void handleCommand(SlashCommandInteractionEvent event) {
         if (!(event.getChannel().getType().isMessage() &&
@@ -28,14 +29,14 @@ public class PollCommand {
         for (int i = 1; i < 10; i++) {
             OptionMapping opt = event.getOption("option-" + i);
             if (opt != null) {
-                embed.getDescriptionBuilder().append(String.format("%s %s\n", emotes[i], opt.getAsString()));
+                embed.getDescriptionBuilder().append(String.format("%s %s\n", emotes[i - 1], opt.getAsString()));
             }
         }
-        event.getHook().sendMessageEmbeds(embed.build()).queue(msg -> {
+        event.replyEmbeds(embed.build()).complete().retrieveOriginal().queue(msg -> {
             for (int i = 1; i < 10; i++) {
                 OptionMapping opt = event.getOption("option-" + i);
                 if (opt != null) {
-                    msg.addReaction(Emoji.fromUnicode(emotes[i])).queue();
+                    msg.addReaction(Emoji.fromUnicode(emotes[i - 1])).queue();
                 }
             }
         });

@@ -48,8 +48,10 @@ public class ShutdownCommand {
                 event.getMessage().editMessageEmbeds(new EmbedBuilder().setColor(Util.green).setDescription("Shutting down...").build()).queue();
                 System.exit(0);
             }
-            case "a" -> event.getMessage().editMessageEmbeds(new EmbedBuilder().setColor(Util.blue).setDescription("Shutdown cancelled").build()).queue();
-            default -> {}
+            case "a" ->
+                    event.getMessage().editMessageEmbeds(new EmbedBuilder().setColor(Util.blue).setDescription("Shutdown cancelled").build()).queue();
+            default -> {
+            }
         }
     }
 }

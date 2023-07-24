@@ -28,7 +28,8 @@ public class ColorCommand {
             color = Color.decode(hex);
         } catch (Exception e) {
             event.replyEmbeds(Embeds.errorEmbed("Invalid color code")).queue();
-            e.printStackTrace();            return;
+            e.printStackTrace();
+            return;
         }
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(color)

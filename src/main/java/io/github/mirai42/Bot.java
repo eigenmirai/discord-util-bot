@@ -31,15 +31,11 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -94,7 +90,7 @@ public class Bot {
                                         .addChoices(HashCommand.ALGORITHMS.stream().map(e -> new Command.Choice(e, e)).toList())
                         ),
                 Commands.slash("color", "Get information about a color")
-                                .addOption(OptionType.STRING, "hex", "Color hex code", true),
+                        .addOption(OptionType.STRING, "hex", "Color hex code", true),
 //                Commands.slash("color-role", "Gives the user a colored role")
 //                                .addOption(OptionType.STRING, "hex", "Color hex code"),
                 Commands.slash("snowflake", "Get information on a snowflake")
@@ -123,8 +119,6 @@ public class Bot {
                         .addOption(OptionType.STRING, "option-7", "Option 7", false)
                         .addOption(OptionType.STRING, "option-8", "Option 8", false)
                         .addOption(OptionType.STRING, "option-9", "Option 9", false),
-                //Commands.slash("edit-id3", "Edit ID3 tags of an mp3 file")
-                //        .addOption(OptionType.ATTACHMENT, "file", "File to edit tags", true),
                 Commands.slash("yt-download", "Download a video from youtube")
                         .addOptions(
                                 new OptionData(OptionType.STRING, "url", "URL of the video", true),

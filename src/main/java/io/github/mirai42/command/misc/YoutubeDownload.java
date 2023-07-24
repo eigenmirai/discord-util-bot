@@ -1,10 +1,8 @@
 package io.github.mirai42.command.misc;
 
-import io.github.mirai42.util.Embeds;
 import io.github.mirai42.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -96,7 +94,7 @@ public class YoutubeDownload {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        title = title.substring(0, title.length()-11);
+        title = title.substring(0, title.length() - 11);
         return title.replace("\n", "").replace(" ", "_");
     }
 

@@ -2,7 +2,6 @@ package io.github.mirai42.command.info;
 
 import io.github.mirai42.Bot;
 import io.github.mirai42.util.CommandLogger;
-import io.github.mirai42.util.Embeds;
 import io.github.mirai42.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -78,8 +76,8 @@ public class BotInfoCommand {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         );
         String mem = String.format("%dMB/%dMB",
-                Runtime.getRuntime().totalMemory()/1048576,
-                Runtime.getRuntime().maxMemory()/1048576
+                Runtime.getRuntime().totalMemory() / 1048576,
+                Runtime.getRuntime().maxMemory() / 1048576
         );
 
         JDA jda = Bot.getInstance().getJda();
